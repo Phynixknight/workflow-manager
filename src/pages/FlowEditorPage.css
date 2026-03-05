@@ -1,0 +1,318 @@
+/* FlowEditorPage.css */
+
+.flow-editor-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - 100px);
+}
+
+.flow-editor-page h2 {
+  margin-bottom: 2rem;
+  color: #282c34;
+  text-align: center;
+}
+
+.message {
+  padding: 1rem;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.message.success {
+  background-color: #4caf50;
+}
+
+.message.error {
+  background-color: #f44336;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.flow-editor-container {
+  display: flex;
+  gap: 2rem;
+}
+
+.toolbar {
+  width: 200px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.flow-id-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.flow-id-input label {
+  font-weight: 500;
+  color: #282c34;
+}
+
+.flow-id-input input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.node-library h3 {
+  margin-bottom: 1rem;
+  color: #282c34;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.node-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.node-items button {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  color: #282c34;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-align: left;
+}
+
+.node-items button:hover {
+  background-color: #61dafb;
+  color: #282c34;
+  font-weight: bold;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.action-buttons button {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.action-buttons button:nth-child(1) {
+  background-color: #61dafb;
+  color: #282c34;
+}
+
+.action-buttons button:nth-child(1):hover {
+  background-color: #21a1c4;
+}
+
+.action-buttons button:nth-child(2) {
+  background-color: #4caf50;
+  color: white;
+}
+
+.action-buttons button:nth-child(2):hover {
+  background-color: #388e3c;
+}
+
+.action-buttons button:nth-child(3) {
+  background-color: #ff9800;
+  color: white;
+}
+
+.action-buttons button:nth-child(3):hover {
+  background-color: #f57c00;
+}
+
+.action-buttons button:nth-child(4) {
+  background-color: #f44336;
+  color: white;
+}
+
+.action-buttons button:nth-child(4):hover {
+  background-color: #d32f2f;
+}
+
+.action-buttons button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.flow-container {
+  flex: 1;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 800px;
+  position: relative;
+}
+
+/* 节点样式 */
+.node-default {
+  width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.node-start {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #4caf50;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.node-end {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #f44336;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.node-content-wrapper {
+  padding: 1rem;
+}
+
+.node-header {
+  background-color: #61dafb;
+  color: #282c34;
+  padding: 0.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.node-start .node-header {
+  background-color: #4caf50;
+  color: white;
+  border-radius: 50%;
+  padding: 1rem;
+}
+
+.node-end .node-header {
+  background-color: #f44336;
+  color: white;
+  border-radius: 50%;
+  padding: 1rem;
+}
+
+.node-content {
+  padding: 1rem;
+  min-height: 80px;
+}
+
+.node-element {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.node-element h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #282c34;
+}
+
+.node-element input {
+  width: 100%;
+  padding: 0.25rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+}
+
+/* 锚点样式 */
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #61dafb;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px #61dafb;
+}
+
+.react-flow__handle:hover {
+  background-color: #21a1c4;
+  box-shadow: 0 0 0 2px #21a1c4;
+}
+
+/* 边样式 */
+.react-flow__edge-path {
+  stroke: #999;
+  stroke-width: 2;
+}
+
+.react-flow__edge-path:hover {
+  stroke: #61dafb;
+}
+
+.react-flow__edge-arrowhead {
+  fill: #999;
+}
+
+.react-flow__edge:hover .react-flow__edge-arrowhead {
+  fill: #61dafb;
+}
+
+@media (max-width: 768px) {
+  .flow-editor-container {
+    flex-direction: column;
+  }
+  
+  .toolbar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .node-library {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .action-buttons {
+    flex: 1;
+    min-width: 200px;
+  }
+}
