@@ -18,7 +18,7 @@ const AdminPage = () => {
   useEffect(() => {
     const loadNodes = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/node/published');
+        const response = await fetch('http://localhost:8000/api/node/list');
         if (response.ok) {
           const data = await response.json();
           setNodes(data.nodes);
@@ -55,6 +55,20 @@ const AdminPage = () => {
         throw new Error('保存失败');
       }
       
+      // 重新加载节点列表
+      const loadNodes = async () => {
+        try {
+          const response = await fetch('http://localhost:8000/api/node/list');
+          if (response.ok) {
+            const data = await response.json();
+            setNodes(data.nodes);
+          }
+        } catch (error) {
+          console.error('加载节点失败:', error);
+        }
+      };
+      loadNodes();
+      
       setMessage('保存成功');
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
@@ -81,15 +95,22 @@ const AdminPage = () => {
         throw new Error('发布失败');
       }
       
+      // 重新加载节点列表
+      const loadNodes = async () => {
+        try {
+          const response = await fetch('http://localhost:8000/api/node/list');
+          if (response.ok) {
+            const data = await response.json();
+            setNodes(data.nodes);
+          }
+        } catch (error) {
+          console.error('加载节点失败:', error);
+        }
+      };
+      loadNodes();
+      
       setMessage('发布成功');
       setTimeout(() => setMessage(''), 3000);
-      
-      // 重新加载节点列表
-      const nodesResponse = await fetch('http://localhost:8000/api/node/published');
-      if (nodesResponse.ok) {
-        const data = await nodesResponse.json();
-        setNodes(data.nodes);
-      }
     } catch (error) {
       setMessage(`发布失败: ${error.message}`);
       setTimeout(() => setMessage(''), 3000);
@@ -138,7 +159,7 @@ const AdminPage = () => {
       }
       
       // 重新加载节点列表
-      const nodesResponse = await fetch('http://localhost:8000/api/node/published');
+      const nodesResponse = await fetch('http://localhost:8000/api/node/list');
       if (nodesResponse.ok) {
         const data = await nodesResponse.json();
         setNodes(data.nodes);
