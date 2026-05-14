@@ -7,7 +7,7 @@ const HomePage = () => {
     <div className="home-page">
       <div className="hero-section">
         <h1>工作流管理系统</h1>
-        <p>高效管理节点和流程图，简化工作流程</p>
+        <p>高效管理结点和流程图，简化工作流程</p>
       </div>
       
       <div className="features-section">
@@ -19,10 +19,10 @@ const HomePage = () => {
               <line x1="12" y1="17" x2="12" y2="21"></line>
             </svg>
           </div>
-          <h2>节点管理</h2>
-          <p>创建、编辑、发布和管理各种类型的节点，为流程图提供基础组件</p>
+          <h2>结点管理</h2>
+          <p>创建、编辑、发布和管理各种类型的结点，为流程图提供基础组件</p>
           <Link to="/admin" className="feature-button">
-            进入节点管理
+            进入结点管理
           </Link>
         </div>
         
@@ -47,7 +47,7 @@ const HomePage = () => {
             </svg>
           </div>
           <h2>流程图编辑器</h2>
-          <p>使用已发布的节点和起始/结束节点，通过拖拽和连线创建复杂的工作流程</p>
+          <p>使用已发布的结点和起始/结束结点，通过拖拽和连线创建复杂的工作流程</p>
           <Link to="/flow-editor" className="feature-button">
             进入流程图编辑器
           </Link>

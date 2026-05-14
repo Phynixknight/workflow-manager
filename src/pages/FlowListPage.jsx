@@ -10,7 +10,7 @@ const FlowListPage = () => {
   const [showDetails, setShowDetails] = useState(false);
   const navigate = useNavigate();
 
-  // 加载所有流程图
+  // 加载所有工作流
   useEffect(() => {
     const loadFlows = async () => {
       try {
@@ -21,7 +21,7 @@ const FlowListPage = () => {
           setFlows(data.flows);
         }
       } catch (error) {
-        console.error('加载流程图失败:', error);
+        console.error('加载工作流失败:', error);
         setMessage(`加载失败: ${error.message}`);
         setTimeout(() => setMessage(''), 3000);
       } finally {
@@ -31,7 +31,7 @@ const FlowListPage = () => {
     loadFlows();
   }, []);
 
-  // 删除流程图
+  // 删除工作流
   const deleteFlow = useCallback(async (flowId) => {
     try {
       setLoading(true);
@@ -45,14 +45,12 @@ const FlowListPage = () => {
         throw new Error('删除失败');
       }
       
-      // 重新加载流程图列表
       const flowsResponse = await fetch('http://localhost:8000/api/flow/list');
       if (flowsResponse.ok) {
         const data = await flowsResponse.json();
         setFlows(data.flows);
       }
       
-      // 如果删除的是当前选中的流程图，关闭详情弹窗
       if (selectedFlow && selectedFlow.id === flowId) {
         setShowDetails(false);
         setSelectedFlow(null);
@@ -68,88 +66,16 @@ const FlowListPage = () => {
     }
   }, [selectedFlow]);
 
-  // 编辑流程图
+  // 编辑工作流
   const editFlow = useCallback((flowId) => {
     navigate(`/flow-editor?flowId=${flowId}`);
   }, [navigate]);
 
-  // 查看流程图详情
+  // 查看工作流详情
   const viewDetails = useCallback((flow) => {
     setSelectedFlow(flow);
     setShowDetails(true);
   }, []);
-
-  // 上线流程图
-  const publishFlow = useCallback(async (flowId) => {
-    try {
-      setLoading(true);
-      setMessage('');
-      
-      const response = await fetch(`http://localhost:8000/api/flow/publish/${flowId}`, {
-        method: 'POST',
-      });
-      
-      if (!response.ok) {
-        throw new Error('上线失败');
-      }
-      
-      // 重新加载流程图列表
-      const flowsResponse = await fetch('http://localhost:8000/api/flow/list');
-      if (flowsResponse.ok) {
-        const data = await flowsResponse.json();
-        setFlows(data.flows);
-      }
-      
-      // 更新选中的流程图状态
-      if (selectedFlow && selectedFlow.id === flowId) {
-        setSelectedFlow({ ...selectedFlow, published: true });
-      }
-      
-      setMessage('上线成功');
-      setTimeout(() => setMessage(''), 3000);
-    } catch (error) {
-      setMessage(`上线失败: ${error.message}`);
-      setTimeout(() => setMessage(''), 3000);
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedFlow]);
-
-  // 下线流程图
-  const unpublishFlow = useCallback(async (flowId) => {
-    try {
-      setLoading(true);
-      setMessage('');
-      
-      const response = await fetch(`http://localhost:8000/api/flow/unpublish/${flowId}`, {
-        method: 'POST',
-      });
-      
-      if (!response.ok) {
-        throw new Error('下线失败');
-      }
-      
-      // 重新加载流程图列表
-      const flowsResponse = await fetch('http://localhost:8000/api/flow/list');
-      if (flowsResponse.ok) {
-        const data = await flowsResponse.json();
-        setFlows(data.flows);
-      }
-      
-      // 更新选中的流程图状态
-      if (selectedFlow && selectedFlow.id === flowId) {
-        setSelectedFlow({ ...selectedFlow, published: false });
-      }
-      
-      setMessage('下线成功');
-      setTimeout(() => setMessage(''), 3000);
-    } catch (error) {
-      setMessage(`下线失败: ${error.message}`);
-      setTimeout(() => setMessage(''), 3000);
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedFlow]);
 
   return (
     <div className="flow-list-page">
@@ -162,37 +88,39 @@ const FlowListPage = () => {
       <div className="flow-list-container">
         <div className="flow-list">
           <div className="flow-list-header">
-            <h3>流程图列表</h3>
+            <h3>工作流列表</h3>
             <Link to="/flow-editor">
-              <button className="create-button">创建新流程图</button>
+              <button className="create-button">创建新工作流</button>
             </Link>
           </div>
           {loading ? (
             <div className="loading">加载中...</div>
           ) : flows.length === 0 ? (
-            <div className="empty">暂无流程图</div>
+            <div className="empty">暂无工作流</div>
           ) : (
             <table className="flow-table">
               <thead>
                 <tr>
-                  <th>流程图ID</th>
-                  <th>节点数量</th>
+                  <th>工作流名称</th>
+                  <th>工作流ID</th>
+                  <th>创建时间</th>
+                  <th>结点数量</th>
                   <th>边数量</th>
-                  <th>发布状态</th>
                   <th>操作</th>
                 </tr>
               </thead>
               <tbody>
                 {flows.map((flow) => (
                   <tr key={flow.id}>
-                    <td onClick={() => viewDetails(flow)} style={{ cursor: 'pointer' }}>{flow.id}</td>
+                    <td onClick={() => viewDetails(flow)} style={{ cursor: 'pointer', fontWeight: 500 }}>
+                      {flow.name || <span style={{ color: '#98a2b3' }}>未命名</span>}
+                    </td>
+                    <td style={{ fontSize: '12px', color: '#5a6577' }}>{flow.id}</td>
+                    <td style={{ fontSize: '12px', color: '#5a6577' }}>
+                      {flow.created_at ? new Date(flow.created_at).toLocaleString('zh-CN') : '-'}
+                    </td>
                     <td>{flow.nodes ? flow.nodes.length : 0}</td>
                     <td>{flow.edges ? flow.edges.length : 0}</td>
-                    <td>
-                      <span className={`status-badge ${flow.published ? 'published' : 'unpublished'}`}>
-                        {flow.published ? '已发布' : '未发布'}
-                      </span>
-                    </td>
                     <td>
                       <div className="action-buttons">
                         <button 
@@ -201,26 +129,10 @@ const FlowListPage = () => {
                         >
                           编辑
                         </button>
-                        {flow.published ? (
-                          <button 
-                            onClick={() => unpublishFlow(flow.id)}
-                            disabled={loading}
-                            className="unpublish-button"
-                          >
-                            下线
-                          </button>
-                        ) : (
-                          <button 
-                            onClick={() => publishFlow(flow.id)}
-                            disabled={loading}
-                            className="publish-button"
-                          >
-                            上线
-                          </button>
-                        )}
                         <button 
                           onClick={() => deleteFlow(flow.id)}
                           disabled={loading}
+                          className="delete-button"
                         >
                           删除
                         </button>
@@ -234,12 +146,12 @@ const FlowListPage = () => {
         </div>
       </div>
       
-      {/* 流程图详情弹窗 */}
+      {/* 工作流详情弹窗 */}
       {showDetails && selectedFlow && (
         <div className="details-modal">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>流程图详情</h3>
+              <h3>工作流详情</h3>
               <button 
                 className="close-button"
                 onClick={() => setShowDetails(false)}
@@ -251,26 +163,20 @@ const FlowListPage = () => {
             
             <div className="modal-body">
               <div className="detail-item">
-                <label>流程图ID:</label>
+                <label>工作流ID:</label>
                 <span>{selectedFlow.id}</span>
               </div>
               <div className="detail-item">
-                <label>节点数量:</label>
+                <label>结点数量:</label>
                 <span>{selectedFlow.nodes ? selectedFlow.nodes.length : 0}</span>
               </div>
               <div className="detail-item">
                 <label>边数量:</label>
                 <span>{selectedFlow.edges ? selectedFlow.edges.length : 0}</span>
               </div>
-              <div className="detail-item">
-                <label>发布状态:</label>
-                <span className={`status-badge ${selectedFlow.published ? 'published' : 'unpublished'}`}>
-                  {selectedFlow.published ? '已发布' : '未发布'}
-                </span>
-              </div>
               {selectedFlow.nodes && (
                 <div className="detail-section">
-                  <h4>节点列表:</h4>
+                  <h4>结点列表:</h4>
                   <ul>
                     {selectedFlow.nodes.map((node) => (
                       <li key={node.id}>
