@@ -14,7 +14,7 @@ const Sidebar = () => {
           className={`sidebar-link ${location.pathname === '/flow-list' ? 'active' : ''}`}
         >
           <span className="sidebar-icon">📋</span>
-          流程图列表
+          工作流列表
         </Link>
         <Link
           to="/admin"
